@@ -39,7 +39,6 @@ sequenceDiagram
   - Network I/O when receiving or sending data.
   - Disk I/O and decryption when downloading media files.
   - Data processing tasks performed on received content.
-- **Hardware/Electricity**: Running the listener script requires the local machine to remain active. Electricity consumption is primarily determined by the system's baseline power draw and the duration of active processing cycles.
 
 ### Obtaining Telegram API Credentials
 
