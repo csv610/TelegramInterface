@@ -1,76 +1,62 @@
 # Telegram Interface
 
-A powerful and simple command-line interface for interacting with Telegram using the Telethon library. This tool allows you to send messages, files, and monitor incoming messages in real-time.
+A set of Python scripts for interacting with the Telegram API using the Telethon library.
 
-## 🚀 Features
+## Functionality
 
-- **Real-time Monitoring**: Listen for incoming messages across all your chats.
-- **Media Support**: Automatically download incoming photos and media to a local directory.
-- **Flexible Sending**: Send text messages or files (with optional captions) to yourself or any contact.
-- **Secure Configuration**: Uses environment variables for sensitive credentials.
-- **Session Management**: Handles Telegram's authorization flow and persists sessions locally.
+- **Message Monitoring**: Logs incoming messages from all active chats in real-time.
+- **Media Acquisition**: Downloads received photos to a local directory.
+- **Message Dispatch**: Sends text messages and files to specified recipients.
+- **Authentication**: Manages Telegram session authorization and configuration via environment variables.
 
-## 🛠 Prerequisites
+## Requirements
 
 - Python 3.10+
-- Telegram API Credentials (ID and Hash) from [my.telegram.org](https://my.telegram.org/apps)
+- Telegram API credentials (ID and Hash)
 
-## 📥 Installation
+## Installation
 
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/csv610/TelegramInterface.git
-   cd TelegramInterface
-   ```
-
-2. **Install dependencies**:
+1. Install dependencies:
    ```bash
    pip install -r requirements.txt
    ```
 
-3. **Configure environment**:
-   Create a `.env` file in the root directory:
+2. Define credentials in a `.env` file:
    ```env
    TELEGRAM_ID=your_api_id
    TELEGRAM_HASH=your_api_hash
-   PHONE_NUMBER=your_phone_number_with_country_code
+   PHONE_NUMBER=your_phone_number
    ```
 
-## 📖 Usage
+## Usage
 
-### Monitoring Messages
-Run the receiver script to listen for incoming messages and view recent dialogs:
+### Receiving Messages
+The script displays recent chats and listens for new messages.
 ```bash
 python telegram_receive.py --limit 10 --dir ./downloads
 ```
-*   `--limit`: Number of recent chats to display on startup.
-*   `--dir`: Directory where incoming media will be saved.
 
-### Sending Messages & Files
-Use the sender script to transmit data:
+### Sending Content
+The script transmits text or files.
 
-**Send a simple message to 'Saved Messages':**
+**Send text to "Saved Messages":**
 ```bash
-python telegram_send.py "Hello from the CLI!"
+python telegram_send.py "Message text"
 ```
 
 **Send a file with a caption:**
 ```bash
-python telegram_send.py -f report.pdf -m "Here is the daily report"
+python telegram_send.py -f path/to/file -m "Caption text"
 ```
 
-**Send to a specific recipient:**
+**Send to a specific contact:**
 ```bash
-python telegram_send.py "Secret message" --to "+1234567890"
+python telegram_send.py "Message text" --to "+1234567890"
 ```
 
-## 📁 Project Structure
+## Components
 
-- `telegram_receive.py`: Real-time listener and media downloader.
-- `telegram_send.py`: CLI tool for sending text and files.
-- `telegram_utils.py`: Shared utilities for authentication and config loading.
-- `requirements.txt`: Python dependencies.
-- `.env`: (User-created) Configuration for API credentials.
-
-## 🔒 Security Note
-Never commit your `.env` file or `*.session` files to public repositories. These contain sensitive tokens that grant access to your Telegram account.
+- `telegram_receive.py`: Message listener and media downloader.
+- `telegram_send.py`: Command-line interface for sending content.
+- `telegram_utils.py`: Shared authentication and configuration logic.
+- `requirements.txt`: Project dependencies.
