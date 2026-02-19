@@ -31,6 +31,12 @@ sequenceDiagram
 - Python 3.10+
 - Telegram API credentials (ID and Hash)
 
+## Operating Costs (macOS)
+
+- **Software**: The Python interpreter and the Telethon library are open-source and available at no cost.
+- **Telegram API**: Usage of the Telegram API for personal, non-commercial applications is currently free of charge, subject to standard rate limits.
+- **Hardware/Electricity**: Running the listener script (`telegram_receive.py`) requires the local machine to remain active. Electricity consumption depends on the specific hardware model and its power management settings.
+
 ### Obtaining Telegram API Credentials
 
 1.  Log in to the [Telegram core website](https://my.telegram.org) using your phone number.
