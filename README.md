@@ -35,7 +35,11 @@ sequenceDiagram
 
 - **Software**: The Python interpreter and the Telethon library are open-source and available at no cost.
 - **Telegram API**: Usage of the Telegram API for personal, non-commercial applications is currently free of charge, subject to standard rate limits.
-- **Hardware/Electricity**: Running the listener script (`telegram_receive.py`) requires the local machine to remain active. Electricity consumption depends on the specific hardware model and its power management settings.
+- **CPU Usage**: The listener script (`telegram_receive.py`) is an asynchronous process. When idling (waiting for new messages), CPU utilization is minimal. Spikes in CPU usage occur during:
+  - Network I/O when receiving or sending data.
+  - Disk I/O and decryption when downloading media files.
+  - Data processing tasks performed on received content.
+- **Hardware/Electricity**: Running the listener script requires the local machine to remain active. Electricity consumption is primarily determined by the system's baseline power draw and the duration of active processing cycles.
 
 ### Obtaining Telegram API Credentials
 
