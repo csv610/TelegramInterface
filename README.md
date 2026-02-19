@@ -2,6 +2,23 @@
 
 A set of Python scripts for interacting with the Telegram API using the Telethon library.
 
+## Workflow
+
+The following diagram illustrates the interaction between a mobile device and a local machine using these scripts:
+
+```mermaid
+sequenceDiagram
+    participant User as iPhone (User)
+    participant Cloud as Telegram Cloud
+    participant Home as Local Machine (Home)
+
+    User->>Cloud: Sends Text/Image
+    Cloud->>Home: New Message Event (telegram_receive.py)
+    Note over Home: Processes Text/Image
+    Home->>Cloud: Sends Results (telegram_send.py)
+    Cloud->>User: Receives Results
+```
+
 ## Functionality
 
 - **Message Monitoring**: Logs incoming messages from all active chats in real-time.
