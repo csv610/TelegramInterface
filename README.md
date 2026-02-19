@@ -31,6 +31,14 @@ sequenceDiagram
 - Python 3.10+
 - Telegram API credentials (ID and Hash)
 
+### Obtaining Telegram API Credentials
+
+1.  Log in to the [Telegram core website](https://my.telegram.org) using your phone number.
+2.  Select **API development tools**.
+3.  Fill out the form to create a new application. You can use any name and platform (e.g., "LocalInterface" and "Desktop").
+4.  After submission, the system will display your `api_id` and `api_hash`.
+5.  Copy these values into your local `.env` file.
+
 ## Installation
 
 1. Install dependencies:
