@@ -7,48 +7,56 @@ from telegram_utils import get_authorized_client
 
 logger = logging.getLogger(__name__)
 
+
 async def main(limit=5, download_dir='downloads'):
-    # Use the utility to get an authorized client
     client = await get_authorized_client('telegram')
-    logger.info("Successfully connected to Telegram!")
+    try:
+        logger.info("Successfully connected to Telegram!")
 
-    # Ensure downloads directory exists
-    os.makedirs(download_dir, exist_ok=True)
+        os.makedirs(download_dir, exist_ok=True)
 
-    # 1. Read recent dialogs (chats)
-    logger.info(f" --- Recent {limit} Chats ---")
-    async for dialog in client.iter_dialogs(limit=limit):
-        logger.info(f"Chat: {dialog.name} (ID: {dialog.id})")
+        logger.info(" --- Recent %d Chats ---", limit)
+        async for dialog in client.iter_dialogs(limit=limit):
+            logger.info("Chat: %s (ID: %s)", dialog.name, dialog.id)
 
-    # 2. Monitor for new messages in real-time
-    logger.info("\nListening for new messages (Press Ctrl+C to stop)...")
-    
-    @client.on(events.NewMessage)
-    async def handler(event):
-        chat = await event.get_chat()
-        sender = await event.get_sender()
-        name = getattr(sender, 'first_name', 'Unknown')
-        
-        # Print text message
-        if event.text:
-            chat_title = getattr(chat, 'title', 'Private')
-            logger.info(f"[{chat_title}] {name}: {event.text}")
+        logger.info("Listening for new messages (Press Ctrl+C to stop)...")
 
-        # Download images/media
-        if event.photo:
-            path = await event.download_media(file=download_dir + '/')
-            logger.info(f"Downloaded photo from {name} to {path}")
+        @client.on(events.NewMessage)
+        async def handler(event):
+            try:
+                chat = await event.get_chat()
+                sender = await event.get_sender()
+                name = getattr(sender, 'first_name', 'Unknown')
 
-    await client.run_until_disconnected()
+                if event.text:
+                    chat_title = getattr(chat, 'title', 'Private')
+                    logger.info("[%s] %s: %s", chat_title, name, event.text)
+
+                if event.photo:
+                    path = await event.download_media(file=download_dir)
+                    logger.info("Downloaded photo from %s to %s", name, path)
+            except Exception:
+                logger.exception("Error handling message:")
+
+        await client.run_until_disconnected()
+    finally:
+        await client.disconnect()
+        logger.info("Disconnected.")
+
 
 if __name__ == '__main__':
+    logging.basicConfig(
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+        level=logging.INFO
+    )
+
     parser = argparse.ArgumentParser(description="Listen for incoming Telegram messages.")
     parser.add_argument("-l", "--limit", type=int, default=5, help="Number of recent chats to show. Default: 5.")
     parser.add_argument("-d", "--dir", default="downloads", help="Directory to save media. Default: 'downloads'.")
-    
+
     args = parser.parse_args()
-    
+
     try:
         asyncio.run(main(limit=args.limit, download_dir=args.dir))
     except KeyboardInterrupt:
-        logger.info("\nStopped.")
+        logger.info("Stopped.")
